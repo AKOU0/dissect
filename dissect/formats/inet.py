@@ -71,7 +71,7 @@ class ETHERII(VStruct):
 
     def _onSetEtype(self):
         # append vlan tags if needed
-        if etype == ethp.vlan:
+        if self.etype == ethp.vlan:
             self.vtag = uint16()
             self.vvlan = uint16()
 

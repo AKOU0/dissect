@@ -49,6 +49,8 @@ class IPv4Addr(uint32):
     def __repr__(self):
         return socket.inet_ntop(socket.AF_INET, bytes(self))
 
+
+
 class IPv6Addr(vbytes):
 
     def __init__(self):
@@ -69,7 +71,7 @@ class ETHERII(VStruct):
 
     def _onSetEtype(self):
         # append vlan tags if needed
-        if etype == ethp.vlan:
+        if self.etype == ethp.vlan:
             self.vtag = uint16()
             self.vvlan = uint16()
 
