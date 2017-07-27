@@ -49,8 +49,6 @@ class IPv4Addr(uint32):
     def __repr__(self):
         return socket.inet_ntop(socket.AF_INET, bytes(self))
 
-
-
 class IPv6Addr(vbytes):
 
     def __init__(self):

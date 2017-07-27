@@ -1,13 +1,3 @@
-
-# py2+3 compat
-
-from __future__ import unicode_literals
-
-try:
-     xrange = xrange
-except:
-     xrange = range
-
 from vstruct2.types import *
 import dissect.protos.inet as vs_inet
 
@@ -172,7 +162,6 @@ class DnsNameLabel(VStruct):
         if self.vsHasField('label'):  # the resize will crash if the label hasn't been set yet w/o this
             self.vsGetField('label').vsResize(size)
 
-
     def pcb_label(self):
         if self.length == 0:
             return
@@ -279,7 +268,7 @@ class DnsQuestionArray(VArray):
     '''
     def __init__(self, reccnt):
         VArray.__init__(self)
-        for i in xrange(reccnt):
+        for i in range(reccnt):
             self.vsAddElement(DnsQuestion())
 
 class DnsOptResourceRecord(VStruct):
@@ -360,7 +349,7 @@ class DnsResourceRecordArray(VArray):
     '''
     def __init__(self, reccnt):
         VArray.__init__(self)
-        for i in xrange(reccnt):
+        for i in range(reccnt):
             self.vsAddElement(DnsResourceRecord())
 
 class DnsMessage(VStruct):
@@ -471,7 +460,7 @@ class DnsMessage(VStruct):
         self._cache_qrs = ret
         return ret
 
-    def _getResourceRecords(self, structure):
+    def getResourceRecords(self, structure):
         '''
         Given a DnsResourceRecordArray() structure, return a list of Resource 
         Records as (dnstype, dnsclass, ttl, fqdn, adata) tuples.  If a parser
@@ -520,7 +509,7 @@ class DnsMessage(VStruct):
         tuple if necessary).
         '''
         if not self._cache_ars:
-            self._cache_ars = self._getResourceRecords(structure=self.section.answer)
+            self._cache_ars = self.getResourceRecords(structure=self.section.answer)
         return self._cache_ars
 
     def getAuthorityRecords(self):
@@ -530,7 +519,7 @@ class DnsMessage(VStruct):
         the 'rdata' field will be further parsed into its components 
         (as a tuple if necessary).
         '''
-        return self._getResourceRecords(structure=self.section.authority)
+        return self.getResourceRecords(structure=self.section.authority)
 
     def getAdditionalRecords(self):
         '''
@@ -539,7 +528,7 @@ class DnsMessage(VStruct):
         the 'rdata' field will be further parsed into its components (as 
         a tuple if necessary).
         '''
-        return self._getResourceRecords(structure=self.section.additional)
+        return self.getResourceRecords(structure=self.section.additional)
 
     def getDnsNames(self):
         '''
